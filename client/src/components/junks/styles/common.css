@@ -1,0 +1,51 @@
+/* // dropzone style */
+.dropzone{
+    display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding:4px;
+  margin:20px 1px;
+  border:2px solid teal;
+   width:50%;
+  border-radius:5%;
+  cursor:pointer
+ 
+
+}
+.dropzone .dropzone-inner{
+ width: 95%;
+ height: 100px;
+ border:1px solid lightgrey;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ margin: auto;
+ color:teal; 
+ font-size: 20px;
+ font-weight: 700;
+}
+.dropzone .dropzone-delete-inner{
+  max-width: 100%;
+  max-height: 100%;
+  /* border:1px solid lightgrey; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+ }
+
+.dropzone .fa{
+  color:teal;
+  font-size:25px;
+  font-weight:700;
+  margin-right: 5px;
+}
+.card.search{
+  background: transparent;
+  border:2px solid #aaa
+}
+
+.card{
+  background: transparent;
+  border:2px solid #aaa
+}

@@ -1,0 +1,20 @@
+/* =============================================================================== */
+          /* generics */
+/* ============================================================================== */
+.underscore {
+ /*  position: relative;
+    border-top: 1px solid transparent;
+    height: 0;
+    font-size: 0;
+    line-height: 0;
+    margin-top: 25px; */
+    height: 2px;
+    width: 15%;
+    margin: 15px auto;
+    background: #50b9ce;
+
+  }
+  .h1-title{
+    color: #46485c;line-height: 69px;font-size: 50px;font-weight: 700;font-family: montserrat;
+    margin: 0 0 10px 0;text-transform: uppercase;letter-spacing: .05em;text-align: center;}
+

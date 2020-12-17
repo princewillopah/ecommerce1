@@ -1,0 +1,11 @@
+GET http://localhost:5000/api/auth
+my-token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY0OGMzYmRlZTBjYjY2ZWQwYzMwYzU4In0sImlhdCI6MTU5ODYxMzIyMywiZXhwIjoxNTk4OTczMjIzfQ.35xfPayDiWpHf2d6KmZ8BgYPJCzk-Px6oxhAidaDpVQ
+
+###
+POST http://localhost:5000/api/auth
+Content-Type: application/json
+
+{
+    "email": "princewillopah@gmail.com",
+    "password": "pppppp"
+}

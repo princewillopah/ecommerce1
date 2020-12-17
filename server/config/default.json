@@ -1,0 +1,6 @@
+{
+    "mongoURL":"mongodb://localhost/online-shop",
+    "jwtSecret":"myscrecrettoken",
+    "githubClientId":"a081900b6458ce16d8e2",
+    "githubClientSecret":"cba95a14ea2c94de25296ccc5c8ddf4919617a22"
+}
