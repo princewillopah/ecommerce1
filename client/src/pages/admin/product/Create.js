@@ -5,8 +5,11 @@ import axios from 'axios'
 
 import {toast} from 'react-toastify';
 import {useSelector} from 'react-redux'
+import { Select } from "antd"
+const {Option} = Select
+
 // import LocalSearch from '../../../components/forms/LocalSearch';
-import {create} from '../../../utils/productFunctions';
+// import {create} from '../../../utils/productFunctions';
 
  
 const initialState = {
@@ -15,7 +18,6 @@ const initialState = {
       price: 1000,
       categories: [],// for all categories
       category:"",
-      subCategory:[],
       quantity: 20,
       sold: 0,
       images: [],
@@ -29,24 +31,31 @@ const initialState = {
 }
 const Create = () => {
   const [values, setValues] = useState(initialState)
+  const [subOptions, setSubOptions] = useState([])
+  const [showSubOptions, setShowSubOptions] = useState(false)
+  const [subCategory, setSubCategory] = useState([])
 
-   const {title, description, price, categories, category, subCategory, quantity, sold, images,shipping,color, brand, colorOptions, brandOptions} = values
+   const {title, description, price, categories, category, quantity, sold, images,shipping,color, brand, colorOptions, brandOptions} = values
     const {userInfo} = useSelector(state=>state.userState)
+    
 
-    // useEffect(()=>{
-    //     loadAllCategories()
-    //     loadAllSubCategories()
-    // },[])
+    useEffect(()=>{
+        loadAllCategories()
+        // loadAllSubCategories()
+    },[])
 
-    // const loadAllCategories = async() => {
-    //     try{
-    //         // const config = { headers:{'Content-Type':'application/json', Authorization: `Bearer ${userInfo.token}`}}
-    //         const res = await axios.get('http://localhost:5000/api/categories')
-    //         loadCategories(res.data)
-    //     }catch(err){
-    //       console.log(err)
-    //     }
-    // }
+    const loadAllCategories = async() => {
+        try{
+            // const config = { headers:{'Content-Type':'application/json', Authorization: `Bearer ${userInfo.token}`}}
+            const res = await axios.get('http://localhost:5000/api/categories')
+            // loadCategories(res.data)
+            setValues({...values, categories: res.data})//loading the categories
+        }catch(err){
+          console.log(err)
+        }
+    }
+
+
     // const loadAllSubCategories = async() => {
     //     try{
     //         // const config = { headers:{'Content-Type':'application/json', Authorization: `Bearer ${userInfo.token}`}}
@@ -64,12 +73,13 @@ const Create = () => {
                 // setLoading(true)
                 // const res = await createCategories(name,userInfo.token)
                 const config = { headers:{'Content-Type':'application/json', Authorization: `Bearer ${userInfo.token}`}}
-                const res = await axios.post('http://localhost:5000/api/products',values,config)
-              
+                const formvalues = {...values,subCategory}
+                const res = await axios.post('http://localhost:5000/api/products',formvalues,config)
+              console.log(formvalues)
                 
                 toast.success(`"${res.data.product.title}" has been created`)
                 setValues(initialState)
-
+                setSubCategory([])
                 // loadAllSubCategories()
                 
             }catch(err){
@@ -92,6 +102,29 @@ const Create = () => {
         }
         const handleChange = e =>{
         setValues({...values, [e.target.name]: e.target.value})
+        }
+
+        const handleCategoryChange =  async (e) =>{
+            setValues({...values, category: e.target.value})
+            setSubCategory([])//SETIING previously selected subCategory back to empty when another parent category is selected
+            console.log(e.target.value)
+            axios.get(`http://localhost:5000/api/categories/${e.target.value}/sub-categories`)
+            .then(res =>{
+                setSubOptions(res.data)
+                console.log(res.data)
+
+            })
+            .catch(err =>{
+                 if(err.response && err.response.data.message){
+                     toast.error(err.response.data.message)
+                    console.log(err.response.data.message)
+                }else{
+                     toast.error(err.message)
+                    console.log(err.message)
+                }
+            })
+
+            setShowSubOptions(true)
         }
     //     const handleDelete = async(slug) => {
     //      if(window.confirm('Are you sure you want to delete this recodr')){
@@ -153,8 +186,23 @@ const Create = () => {
                                 <option>Select Brand</option>
                                 {brandOptions.map( brand => (<option key={brand} value={brand}>{brand}</option>))}
                             </select>
-                         
 
+                            <select name="category"  className="form-control" value={category} onChange={handleCategoryChange}>
+                            <option>Please select category</option>
+                            {categories.length > 0 && categories.map(c => (<option key={c._id} value={c._id}>{c.name}</option>))}
+                           </select>
+                          {showSubOptions && ( <div>
+                               <label>Sub Categories</label>
+                               <Select mode="multiple" style={{width:"100%"}} placeholder="Please Select" value={subCategory} onChange={value =>setSubCategory(value)} >
+                                   {/* <Option value="one">option one</Option>
+                                   <Option value="two">option two</Option> */}
+                                   {subOptions && subOptions.map(sub =>(
+                                        <Option value={sub._id} key={sub._id}>{sub.name}</Option>
+                                   )) }
+                               </Select>
+                           </div>)}
+                         
+{JSON.stringify(subCategory)}
                             <input type="submit" className="btn btn-primary btn-raised w-50 text-center mb-2" value='Create'/>
                           
                             

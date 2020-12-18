@@ -1,4 +1,5 @@
 const Category = require('../models/CategoryModel')
+const Sub = require('../models/SubCategoryModel')
 const slugify = require('slugify')
 
 exports.create= async(req,res,next) => {
@@ -92,6 +93,22 @@ exports.remove= async(req,res,next) => {
     }
 
 
+    
+} catch (err) {
+    console.log(err.message)
+}
+}
+
+exports.getSubsCatId= async(req,res,next) => {
+  try {
+  
+    const subcategories = await Sub.find({parent: req.params.id}) //or
+    if(subcategories){ 
+      res.status(200).json(subcategories)
+    }else{
+       res.status(404).json({message: 'SubCategory Not Found'})
+     
+    }
     
 } catch (err) {
     console.log(err.message)

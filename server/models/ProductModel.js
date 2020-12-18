@@ -30,10 +30,10 @@ const ProductSchema = new mongoose.Schema({
         required: [true, 'Please, Provide price'],
         maxlength:  [3000, 'price must contain 32 or less characters'],
       },
-      // category:{type:mongoose.Schema.Types.ObjectId,ref:'Category'},
-      // subCategory:[
-      //     {type:mongoose.Schema.Types.ObjectId,ref:'SubCategory'}
-      // ],
+      category:{type:mongoose.Schema.Types.ObjectId,ref:'Category'},
+      subCategory:[
+          {type:mongoose.Schema.Types.ObjectId,ref:'SubCategory'}
+      ],
       quantity: Number,
       sold:{
           type: Number,
