@@ -23,7 +23,7 @@ const Password = () => {
         const config = { headers:{'Content-Type':'application/json', Authorization: `Bearer ${userInfo.token}`}}
        try {
          //  setLoading(true)
-           const res = await axios.patch('http://localhost:5000/api/update-password',{password},config)//make the request
+           const res = await axios.patch(`${process.env.REACT_APP_URL}/update-password`,{password},config)//make the request
         //    setCurrentPassword('')
            setPassword('')
            setConfirmPassword('')

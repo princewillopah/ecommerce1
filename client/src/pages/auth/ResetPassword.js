@@ -26,7 +26,7 @@ const ResetPassword = ({history,match}) => {
       const config = { headers:{'Content-Type':'application/json'}}
       try {
         //  setLoading(true)
-          const res = await axios.patch('http://localhost:5000/api/reset-password',{password,resettoken},config)//make the request
+          const res = await axios.patch(`${process.env.REACT_APP_URL}/reset-password`,{password,resettoken},config)//make the request
 
          toast.success(res.data.message )
              history.push('/login')

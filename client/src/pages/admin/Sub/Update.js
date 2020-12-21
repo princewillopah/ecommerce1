@@ -25,7 +25,7 @@ const CategoryUpdate = ({history,match}) => {
     const loadAllCategories = async() => {
         try{
             // const config = { headers:{'Content-Type':'application/json', Authorization: `Bearer ${userInfo.token}`}}
-            const res = await axios.get('http://localhost:5000/api/categories')
+            const res = await axios.get(`${process.env.REACT_APP_URL}/categories`)
             loadCategories(res.data)
         }catch(err){
           console.log(err)
@@ -35,7 +35,7 @@ const CategoryUpdate = ({history,match}) => {
         try{
             setLoading(true)
            
-            const res = await axios.get(`http://localhost:5000/api/sub-categories/${match.params.slug}`)
+            const res = await axios.get(`${process.env.REACT_APP_URL}/sub-categories/${match.params.slug}`)
             setName(res.data.name)
             setParent(res.data.parent)
             setLoading(false)
@@ -52,7 +52,7 @@ const CategoryUpdate = ({history,match}) => {
                 setLoading(true)
                 // const res = await createCategories(name,userInfo.token)
                 const config = { headers:{'Content-Type':'application/json', Authorization: `Bearer ${userInfo.token}`}}
-                const res = await axios.put(`http://localhost:5000/api/sub-categories/${match.params.slug}`,{name:name,parent:parent},config)
+                const res = await axios.put(`${process.env.REACT_APP_URL}/sub-categories/${match.params.slug}`,{name:name,parent:parent},config)
                 // setLoading(false)
                 // setName('')
                 toast.success(`"${res.data.name}" has been Updated`)

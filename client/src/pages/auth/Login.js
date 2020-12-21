@@ -26,7 +26,7 @@ const Login = ({history}) => {
       try {
          //  dispatch({type:"USER_REQUEST"})//set loading to true, 
          setLoading(true)
-          const res = await axios.post('http://localhost:5000/api/login',{email,password},config)//make the request
+          const res = await axios.post(`${process.env.REACT_APP_URL}/login`,{email,password},config)//make the request
           // console.log(res)
           dispatch({type:"USER_LOGIN_SUCCESS",payload: res.data})//send action to reducer
           // dispatch({type:U.USER_LOGIN_SUCCESS,payload: data})//TO LOGIN USER AFTER REGISTER

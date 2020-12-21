@@ -13,7 +13,7 @@ const UserNav = () => {
             
            
             <Link className="list-group-item list-group-item-action" to="/admin/products">All Products</Link>
-            <Link className="list-group-item list-group-item-action" to="/admin/product">Product</Link>
+            <Link className="list-group-item list-group-item-action" to="/admin/product">Create Product</Link>
             <Link className="list-group-item list-group-item-action" to="/admin/category">Category</Link>
             <Link className="list-group-item list-group-item-action" to="/admin/sub-category">Subcategory</Link>
             <Link className="list-group-item list-group-item-action" to="/admin/coupon">Create Coupon</Link>

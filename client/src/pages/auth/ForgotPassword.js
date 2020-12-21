@@ -22,7 +22,7 @@ const ForgotPassword = ({history}) => {
       const config = { headers:{'Content-Type':'application/json'}}
       try {
          setLoading(true)
-          const res = await axios.post('http://localhost:5000/api/forgetPassword',{email},config)//make the request
+          const res = await axios.post(`${process.env.REACT_APP_URL}/forgetPassword`,{email},config)//make the request
           // console.log(res)
          //  dispatch({type:"USER_FORGET_PASSWORD",payload: res.data})//send action to reducer
          //  localStorage.setItem('userInfo', JSON.stringify(res.data))//we can only save string in localstorage by converting the json with json.stringify()

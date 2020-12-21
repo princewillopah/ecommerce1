@@ -21,7 +21,7 @@ const CategoryUpdate = ({history,match}) => {
         try{
             setLoading(true)
            
-            const res = await axios.get(`http://localhost:5000/api/categories/${match.params.slug}`)
+            const res = await axios.get(`${process.env.REACT_APP_URL}/categories/${match.params.slug}`)
             setName(res.data.name)
             setLoading(false)
         }catch(err){
@@ -37,7 +37,7 @@ const CategoryUpdate = ({history,match}) => {
                 setLoading(true)
                 // const res = await createCategories(name,userInfo.token)
                 const config = { headers:{'Content-Type':'application/json', Authorization: `Bearer ${userInfo.token}`}}
-                const res = await axios.put(`http://localhost:5000/api/categories/${match.params.slug}`,{name},config)
+                const res = await axios.put(`${process.env.REACT_APP_URL}/categories/${match.params.slug}`,{name},config)
                 // setLoading(false)
                 // setName('')
                 toast.success(`"${res.data.name}" has been Updated`)

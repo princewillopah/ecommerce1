@@ -23,7 +23,7 @@ const Dashboard = () => {
     const loadAllCategories = async() => {
         try{
             // const config = { headers:{'Content-Type':'application/json', Authorization: `Bearer ${userInfo.token}`}}
-            const res = await axios.get('http://localhost:5000/api/categories')
+            const res = await axios.get(`${process.env.REACT_APP_URL}/categories`)
             loadCategories(res.data)
         }catch(err){
           console.log(err)
@@ -38,7 +38,7 @@ const Dashboard = () => {
                 setLoading(true)
                 // const res = await createCategories(name,userInfo.token)
                 const config = { headers:{'Content-Type':'application/json', Authorization: `Bearer ${userInfo.token}`}}
-                const res = await axios.post('http://localhost:5000/api/categories',{name},config)
+                const res = await axios.post(`${process.env.REACT_APP_URL}/categories`,{name},config)
                 setLoading(false)
                 setName('')
                 toast.success(`"${res.data.category.name}" has been created`)
@@ -59,7 +59,7 @@ const Dashboard = () => {
                 setLoading(true)
                 // const res = await createCategories(name,userInfo.token)
                 const config = { headers:{Authorization: `Bearer ${userInfo.token}`}}
-                const res = await axios.delete(`http://localhost:5000/api/categories/${slug}`,config)
+                const res = await axios.delete(`${process.env.REACT_APP_URL}/categories/${slug}`,config)
                 setLoading(false)
                 // setName('')
                 toast.success(res.data.message)

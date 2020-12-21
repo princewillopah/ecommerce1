@@ -27,7 +27,8 @@ app.use(express.json({extended:false}));//for req.body to work// to beable to ma
 app.use(cors()) // for CORS IN FRONTEND 
 
 // app.use('/uploads/users',express.static(path.join('uploads','users')));//making uploads/images publicly accessible by frontend
-// app.use('/uploads/products',express.static(path.join('uploads','products')));
+app.use('/uploads/products',express.static(path.join('uploads','products')));
+// app.use('/uploads',express.static('uploads'));
 
 
 //DEFINING ROUTES
@@ -40,6 +41,8 @@ app.use('/api', require('./routes/authRoutes'))
 app.use('/api/categories', require('./routes/categoryRoutes')) 
 app.use('/api/sub-categories', require('./routes/subCategoryRoutes')) 
 app.use('/api/products', require('./routes/productRoutes')) 
+app.use('/api', require('./routes/cloudinaryRoutes')) 
+app.use('/api/local-server', require('./routes/imageRoutes')) 
 // app.use('/api/products', require('./routes/api/product'))
 // app.use('/api/books',require('./routes/bookRoutes'))//calling route 
 // app.use('/api/users',usersRoutes)//calling route 
@@ -64,7 +67,7 @@ app.use((error,req,res,next)=>{//this is a middleware//this should come after th
 // middleware to handle NOT FOUND ERROR
 app.use(notFound)
 
-// middleware to handle OTHER ERROR
+// // middleware to handle OTHER ERROR
 app.use(errorHandler)
 // app.use(globalErrorHandler)
 

@@ -1,0 +1,7 @@
+1. signup/signin cloudinary to get the api key/secret
+2. create server endpoints to upload / remove files from cloudinary
+3. resize the file in the frontend and send to the server
+4. our server will upload the file on cloudinary and recieve the uploaded url 
+5. those uploaded urls recieved by server will be sent back to the frontend 
+6. it theis point the frontend will have the url of the uploaded image 
+7. now we can save our product with images from cloudinary
