@@ -16,7 +16,10 @@ const Login = ({history}) => {
    const {userInfo} = useSelector(state=>state.userState)
    // const {userInfo, loading, error} = userRegister
     useEffect(() => {
-        if(userInfo){ history.push('/')}//redirct to /home
+        // if(userInfo){ history.push('/')}//redirct to /home
+        let intendedPage = history.location.state//checking if the router history has a state stored in it//and assign it to intendedPage//the state has a path from which the user was coming from and which to be redirected to after a successful login
+        if(intendedPage){return}//push to the page they re coming from
+        else if(userInfo){history.push('/')}//push to home if the user has taken 
     }, [userInfo,history])
 
 

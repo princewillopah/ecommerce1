@@ -6,9 +6,13 @@ import axios from 'axios'
 import {toast} from 'react-toastify';
 import {useSelector} from 'react-redux'
 import { Select } from "antd"
+// import {Avatar, Badge} from 'antd'
+// import Resizer from 'react-image-file-resizer';
+// import Compress  from 'compress.js'
 
 
-import FileUpload from '../../../components/forms/FileUpload';
+// import FileUpload from '../../../components/forms/FileUpload';
+import ProductImageUpload from '../../../components/forms/ProductImageUpload';
 // import {create} from '../../../utils/productFunctions';
 
 const {Option} = Select
@@ -20,31 +24,35 @@ const initialState = {
       categories: [],// for all categories
       category:"",
       quantity: 20,
-      sold: 0,
-      images: [],
+    //   sold: 0,
+    //   images: [],
       color:"Black",
-      brand:"Apple",
-      shipping:"No",
-      colorOptions: ['Black','Blue','Red','Green',"Silver"],//just to mao true if in state
-      brandOptions: ['Apple','Samsung','Microsoft','Lenovo',"Asus"],
+      brand:"Armani",
+      shipping:"Yes",
+      colorOptions: ['Black','Blue','Red','Green',"Silver","Gold","others"],//just to mao true if in state
+      brandOptions: ['Armani','Rougn & Rumble','Polo Ralph','TM Luis',"Mark & Spenser"],
  
  
 }
-const Create = () => {
+const Create = ({history}) => {
   const [values, setValues] = useState(initialState)
   const [subOptions, setSubOptions] = useState([])
   const [showSubOptions, setShowSubOptions] = useState(false)
-  const [subCategory, setSubCategory] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [subCategory, setSubCategory] = useState(null)
+
+  const [images, setImage] = useState([])
+  const [photoPreview,setPhotoPreview] = useState([])//empty or undefind
+//   const [loading, setLoading] = useState(false)
 
 
-   const {title, description, price, categories, category, quantity, sold, images,shipping,color, brand, colorOptions, brandOptions} = values
+   const {title, description, price, categories, category, quantity,shipping,color, brand, colorOptions, brandOptions} = values
     const {userInfo} = useSelector(state=>state.userState)
     
 
     useEffect(()=>{
         loadAllCategories()
         // loadAllSubCategories()
+        // eslint-disable-next-line
     },[])
 
     const loadAllCategories = async() => {
@@ -82,24 +90,31 @@ const Create = () => {
                 formData.append("title",title);
                 formData.append("description", description);
                 formData.append("price", price);
-                formData.append("category", category);
-                 formData.append("subCategory", subCategory);
+                if(category){formData.append("category", category);}
+                
+                if(subCategory){
+                    for (const sub of subCategory) {
+                        formData.append('subCategory', sub)
+                    }
+                }
+                // formData.append("subCategory", subCategory);
                 formData.append("quantity", quantity);
                 formData.append("shipping", shipping);
                 formData.append("color", color);
                 formData.append("brand", brand);
-                // for (const img of values.images) {
-                formData.append('images', images)
-                // }
-
-                  const res = await axios.post(`https://httpbin.org/anything`,formData)
-                // const res = await axios.post(`${process.env.REACT_APP_URL}/products`,formData,config)
-              console.log(formData)
-              console.log(res)
-                
+                for (const img of images) {
+                 formData.append('images', img)
+                }
+            
+                //   const res = await axios.post(`https://httpbin.org/anything`,formData)
+                const res = await axios.post(`${process.env.REACT_APP_URL}/products`,formData,config)
                 toast.success(`"${res.data.product.title}" has been created`)
+                history.push('/admin/products')
+                
+                
                 setValues(initialState)
                 setSubCategory([])
+                setPhotoPreview([])
                 // loadAllSubCategories()
                 
             }catch(err){
@@ -123,11 +138,13 @@ const Create = () => {
         const handleChange = e =>{
         setValues({...values, [e.target.name]: e.target.value})
         }
-
+// ==============================================
+            // category
+// ==========================================
         const handleCategoryChange =  async (e) =>{
             setValues({...values, category: e.target.value})
             setSubCategory([])//SETIING previously selected subCategory back to empty when another parent category is selected
-            console.log(e.target.value)
+            // console.log(e.target.value)
             // axios.get(`http://localhost:5000/api/categories/${e.target.value}/sub-categories`)
             axios.get(`${process.env.REACT_APP_URL}/categories/${e.target.value}/sub-categories`)
             .then(res =>{
@@ -150,61 +167,9 @@ const Create = () => {
             setShowSubOptions(true)
         }
 
-// ---------------------------------------------
-//          handle image
-// -------------------------------------------------
 
-// const handleFileUploadAndResize = (e) =>{
-//     //1 resize imge
-//     let files = e.target.files//for single file = e.target.file[0]
-//     let allUloadedFiles = images//the files we already have in the state//initially 0
-//     if(files){
-//       setLoading(true)//set loading true when file is uploading
-//       for(let i = 0; i < files.length; i++){
-//           Resizer.imageFileResizer(files[i], 720, 720, 'JPEG', 100, 0,
-//               (uri) => { 
-//                 // console.log(uri)
-           
-//             setValues({...values, images: allUloadedFiles})//updade the images array in state with the files url stored in allUloadedFiles array
-                
-//               },
-//               'base64'
-//               );
-//       }
-//       setFileUloadCount(files.length) //my custom//to count the file uploaded and placed beside button
-//     }
-   
-//   }
-  
-    //     const handleDelete = async(slug) => {
-    //      if(window.confirm('Are you sure you want to delete this recodr')){
-    //         try{
-    //             setLoading(true)
-    //             // const res = await createCategories(name,userInfo.token)
-    //             const config = { headers:{Authorization: `Bearer ${userInfo.token}`}}
-    //             const res = await axios.delete(`http://localhost:5000/api/sub-categories/${slug}`,config)
-    //             setLoading(false)
-    //             // setName('')
-    //             toast.success(res.data.message)
-    //             loadAllSubCategories()
-                
-    //         }catch(err){
-              
-    //             setLoading(false)
-    //             // dispatch({type:"USER_FAIL", payload: err.response && err.response.data.message ? err.response.data.message  : err.message })//send action to reducer
-    //             toast.error(err.response.data.message )
-    //             console.log(err.response.data.message)
 
-    //         }
-    //      }
-            
-    //     }
-
-      
-    // //     //FUNCTION FOR SERACH
-    //     const searchFunction = keyword => c => c.name.toLowerCase().includes(keyword)//a function returning another function
-      
-
+ 
    return(<>
           <div className="container ">
                 <div className="row mt-5">
@@ -213,7 +178,7 @@ const Create = () => {
                 </div>
                 <div className="col-md-9">
                     <h1>Create Product</h1>
-                    {/* {JSON.stringify(values.images)} */}
+                    {/* {JSON.stringify(images)} */}
                     <div className="row">
                         <div className="col-md-8 offset-md-2">
                         <form onSubmit={handleOnsubmit}>
@@ -254,15 +219,8 @@ const Create = () => {
                            </div>)}
                            
                            {/* <FileUpload setLoading={setLoading} values={values} setValues={setValues} loading={loading}/> */}
-                           <div className="mb-2 ">
-                             <label htmlFor="" className="btn btn-outline-primary btn-file">
-                               Browse
-                               <input type="file" multiple  accept="image/*" onChange={handleChange}/>
-                            </label>
-                            </div>
-                            <input type="submit" className="btn btn-primary btn-raised w-50 text-center mb-2" value='Create'/>
-                          
-                            
+                         <ProductImageUpload images={images} setImage={setImage} photoPreview={photoPreview} setPhotoPreview={setPhotoPreview}/>
+                            <input type="submit" className="btn btn-primary btn-raised w-50 text-center mb-2" value='Create'/> 
                         </form>
 
                         </div>

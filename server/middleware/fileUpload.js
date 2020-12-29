@@ -8,7 +8,7 @@ const MIME_TYPES = {'image/png':'png','image/jpg':'jpg','image/jpeg':'jpeg',}
 const fileUpload = multer({
     limits:50000,
     storage:multer.diskStorage({
-        destination:(req,file,cb)=>{cb(null,'./uploads/products')},//location
+        destination:(req,file,cb)=>{cb(null,'./uploads')},//location
         filename:(req,file,cb)=>{
             const ext = MIME_TYPES[file.mimetype];//get the type of file
             // cb(null,Date.now()+'.'+ext)//creating the name
@@ -22,7 +22,7 @@ const fileUpload = multer({
         cb(error,isValid)
     }
 
-})
+}).array('images')
 
 
 module.exports = fileUpload;

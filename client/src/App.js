@@ -16,6 +16,7 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 import ResetPassword from './pages/auth/ResetPassword'
 
 import Home from './pages/Home'
+import Product from './pages/Product'
 
 import History from './pages/users/History'
 import Password from './pages/users/Password'
@@ -29,10 +30,12 @@ import AdminSubCategoryCreate from './pages/admin/Sub/Create'
 import AdminSubCategoryUpdate from './pages/admin/Sub/Update'
 
 import AdminProductCreate from './pages/admin/product/Create'
-
+import AdminProductList from './pages/admin/product/ListProducts'
+import AdminProductUpdate from './pages/admin/product/Update'
 
 import UserRoute from './components/routes/UserRoute'
 import AdminRoute from './components/routes/AdminRoute';
+
 
 // import CreateProfile from './profile-form/CreateProfile';
 // import EditProfile from './profile-form/EditProfile';
@@ -80,6 +83,11 @@ const App = () => {
                     <AdminRoute exact path="/admin/sub-category/:slug"   component={AdminSubCategoryUpdate}/>
                     
                     <AdminRoute exact path="/admin/product"   component={AdminProductCreate}/>
+                    <AdminRoute exact path="/admin/products"   component={AdminProductList}/>
+                    <AdminRoute exact path="/admin/products/:slug"   component={AdminProductUpdate}/>
+
+
+                    <Route exact path="/products/:slug"   component={Product}/>
                     
             </Switch>
             <ToastContainer />

@@ -1,0 +1,13 @@
+pagination
+
+- get the total quantity of product from the database
+- have a page number available in the state 
+- use ant design pagination component
+- on pagination click, update page count state 
+- ...and make a request tothe backend based on the page number
+
+
+
+///////////////////////////////////////
+- we need to know the total number of product in the DB
+  the we multiply the total by the amount we wanna show in the page

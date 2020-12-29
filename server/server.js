@@ -27,9 +27,11 @@ app.use(express.json({extended:false}));//for req.body to work// to beable to ma
 app.use(cors()) // for CORS IN FRONTEND 
 
 // app.use('/uploads/users',express.static(path.join('uploads','users')));//making uploads/images publicly accessible by frontend
-app.use('/uploads/products',express.static(path.join('uploads','products')));
+// app.use('/uploads/products',express.static(path.join('uploads','products')));
 // app.use('/uploads',express.static('uploads'));
-
+app.use('/uploads/products', express.static(path.join(__dirname, '/uploads','products')));
+// app.use('/public', express.static(path.join(__dirname, '/public')));
+// app.use('/public', express.static('public'));
 
 //DEFINING ROUTES
 // app.use('/api/places', require('./routes/places-route'))
@@ -40,7 +42,9 @@ app.use('/uploads/products',express.static(path.join('uploads','products')));
 app.use('/api', require('./routes/authRoutes')) 
 app.use('/api/categories', require('./routes/categoryRoutes')) 
 app.use('/api/sub-categories', require('./routes/subCategoryRoutes')) 
+// app.use('/api', require('./routes/productRoutes2')) 
 app.use('/api/products', require('./routes/productRoutes')) 
+
 app.use('/api', require('./routes/cloudinaryRoutes')) 
 app.use('/api/local-server', require('./routes/imageRoutes')) 
 // app.use('/api/products', require('./routes/api/product'))

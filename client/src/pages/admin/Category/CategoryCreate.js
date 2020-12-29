@@ -53,6 +53,8 @@ const Dashboard = () => {
 
             }
         }
+
+        
         const handleDelete = async(slug) => {
          if(window.confirm('Are you sure you want to delete this recodr')){
             try{

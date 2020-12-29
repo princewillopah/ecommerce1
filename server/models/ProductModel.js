@@ -53,19 +53,25 @@ const ProductSchema = new mongoose.Schema({
       color: {
         type: String,
         enum: {
-            values:  ['Black','Blue','Red','Green',"Silver"],
-            message: 'Color must be either black, blue, green, silver or Red'
+            values:  ['Black','Blue','Red','Green',"Silver","Gold","others"],
+            message: 'Color must be either black, blue, green,gold, silver or Red'
         },
         default: 'Green'
     },
     brand: {
         type: String,
         enum: {
-            values:  ['Apple','Samsung','Microsoft','Lenovo',"Asus"],
-            message: 'Color must be either Apple , Samsung , Microsoft , Lenovo ,Asus'
+            values:  ['Armani','Rougn & Rumble','Polo Ralph','TM Luis',"Mark & Spenser","others"],
+            message: "Color must be either 'Armani','Rougn & Rumble','Polo Ralph','TM Luis','Mark & Spenser'"
         },
-        default: 'Apple'
+        default: 'Armani'
     },
+    ratings:[
+      {
+        star: Number,
+        postedBy: {type: mongoose.Schema.Types.ObjectId, ref:'User'}
+      }
+    ]
  
   },
 

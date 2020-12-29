@@ -14,7 +14,7 @@ const [fileUloadCount, setFileUloadCount] = useState(0)
 
 const handleFileUploadAndResize = (e) =>{
   //1 resize imge
-  let files = e.target.files//for single file = e.target.file[0]
+  let files = e.target.files //for single file = e.target.file[0]
   let allUloadedFiles = values.images//the files we already have in the state//initially 0
   if(files){
     setLoading(true)//set loading true when file is uploading
