@@ -86,7 +86,7 @@ const Product = ({match}) => {
    </div>
    <div className="container">
         <div className="row">
-            {relatedProducts && relatedProducts.map(p =>(<ProductCard product={p}/>))}
+            {relatedProducts && relatedProducts.map(p =>(<ProductCard product={p} key={p._id}/>))}
         </div>
    </div>
 </>);

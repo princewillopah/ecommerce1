@@ -1,9 +1,10 @@
 import React,{useState} from 'react'
 import { Menu } from 'antd';
-import {AppstoreOutlined, SettingOutlined,UserOutlined,UserAddOutlined,LogoutOutlined } from '@ant-design/icons';
+import {AppstoreOutlined, SettingOutlined,UserOutlined,UserAddOutlined,LogoutOutlined,ShoppingOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import {Link} from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux'
 import { useHistory } from "react-router-dom";
+import SearchForm from '../forms/SearchForm';
 const Header = () => {//{history} will nnot work here since header is not a Route BUT A component//we hav to user hook's useHistory
   let history = useHistory();
   const { SubMenu,Item } = Menu;
@@ -11,6 +12,7 @@ const Header = () => {//{history} will nnot work here since header is not a Rout
     const dispatch = useDispatch()
     const userState = useSelector(state=>state.userState)
     const {userInfo} = userState
+    const cart = useSelector(state=>state.cartState)
    const handleClick = e => {
        setCurrent(e.key)
       };
@@ -29,6 +31,13 @@ const Header = () => {//{history} will nnot work here since header is not a Rout
         <Item key="Home" icon={<AppstoreOutlined />}>
           <Link to="/">Home</Link>
         </Item>
+        <Item key="Shop" icon={<ShoppingOutlined />}>
+          <Link to="/shop">Shop</Link>
+        </Item>
+        <Item key="Cart" icon={<ShoppingCartOutlined />}>
+        <Link to="/cart">Cart {cart.length > 0 && <span className="badge badge-danger">{cart.length}</span>}</Link>
+        </Item>
+
         {userInfo && (
             <SubMenu key="SubMenu" icon={<SettingOutlined />} title={userInfo.name.split(' ')[0]} className="float-right">
             <Menu.ItemGroup title="Item">
@@ -50,7 +59,10 @@ const Header = () => {//{history} will nnot work here since header is not a Rout
             </Item>
           </>)
         }
-       
+        <span className="float-right p-1">
+        <SearchForm/>
+        </span>
+ 
       </Menu>
       </div>
    </>

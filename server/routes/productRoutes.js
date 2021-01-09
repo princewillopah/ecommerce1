@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {create,listAll,read,update,remove,list,totalProductCount,ratings,relatedProducts} = require('../controllers/ProductController');
+const {create,listAll,read,update,remove,list,totalProductCount,ratings,relatedProducts,searchProducts} = require('../controllers/ProductController');
 const {authMiddleware,isAdmin} = require('../middleware/authenticationMiddleware');
 const upload = require('../middleware/fileUpload2');
  
@@ -22,6 +22,8 @@ router.put('/:productId/ratings',authMiddleware,ratings)//https://localhost:500/
 
 router.get('/:productId/related-products',relatedProducts)
 //
+//search 
+router.post('/search/filters',searchProducts)
 
 
 module.exports = router;

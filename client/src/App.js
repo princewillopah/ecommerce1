@@ -2,6 +2,7 @@ import React,{Fragment,useEffect} from 'react';
 // import './styles/App.css'
 import { Route, Switch} from 'react-router-dom'
 import Header from './components/nav/Header';
+
 // import NavBar from './layouts/NavBar'
 // import Landing from './layouts/Landing'
 // import {Provider} from 'react-redux'
@@ -21,6 +22,7 @@ import Product from './pages/Product'
 import History from './pages/users/History'
 import Password from './pages/users/Password'
 import WishList from './pages/users/WishList'
+import CheckOut from './pages/CheckOut'
 
 import AdminDashboard from './pages/admin/Dashboard'
 import AdminCategoryCreate from './pages/admin/Category/CategoryCreate'
@@ -36,6 +38,9 @@ import AdminProductUpdate from './pages/admin/product/Update'
 import UserRoute from './components/routes/UserRoute'
 import AdminRoute from './components/routes/AdminRoute';
 
+import CategoryList from './pages/CategoryList';
+import SubCategoryList from './pages/SubCategoryList';
+
 
 // import CreateProfile from './profile-form/CreateProfile';
 // import EditProfile from './profile-form/EditProfile';
@@ -46,6 +51,12 @@ import AdminRoute from './components/routes/AdminRoute';
 
 import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Shop from './pages/Shop';
+import Cart from './pages/Cart';
+import SideDrawer from './components/others/SideDrawer';
+import CreateCoupon from './pages/admin/coupons/CreateCoupon';
+import Payment from './pages/Payment';
+
 // import Password from 'antd/lib/input/Password';
 
 // import Posts from './post/Posts';
@@ -64,6 +75,7 @@ const App = () => {
   return (
       <>
             <Header/>
+            <SideDrawer/>
             <Switch>
                 <Route exact path="/"   component={Home}/>
                     <Route exact path="/login"   component={Login}/>
@@ -74,6 +86,8 @@ const App = () => {
                     <UserRoute exact path="/user/history"   component={History}/>
                     <UserRoute exact path="/user/password"   component={Password}/>
                     <UserRoute exact path="/user/wishlist"   component={WishList}/>
+                    <UserRoute exact path="/checkout"   component={CheckOut}/>
+                    <UserRoute exact path="/payment"   component={Payment}/>
 
                     <AdminRoute exact path="/admin/dashboard"   component={AdminDashboard}/>
                     <AdminRoute exact path="/admin/category"   component={AdminCategoryCreate}/>
@@ -82,12 +96,19 @@ const App = () => {
                     <AdminRoute exact path="/admin/sub-category"   component={AdminSubCategoryCreate}/>
                     <AdminRoute exact path="/admin/sub-category/:slug"   component={AdminSubCategoryUpdate}/>
                     
+                    <AdminRoute exact path="/admin/coupons"   component={CreateCoupon}/>
+
                     <AdminRoute exact path="/admin/product"   component={AdminProductCreate}/>
                     <AdminRoute exact path="/admin/products"   component={AdminProductList}/>
                     <AdminRoute exact path="/admin/products/:slug"   component={AdminProductUpdate}/>
 
 
                     <Route exact path="/products/:slug"   component={Product}/>
+                    <Route exact path="/categories/:slug"   component={CategoryList}/>
+                    <Route exact path="/sub-categories/:slug"   component={SubCategoryList}/>
+
+                    <Route exact path="/shop"   component={Shop}/>
+                    <Route exact path="/cart"   component={Cart}/>
                     
             </Switch>
             <ToastContainer />

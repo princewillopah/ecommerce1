@@ -1,30 +1,28 @@
-const express = require('express')
+const express = require('express');
 const router = express.Router();
-const {getAllUsers} = require('../controllers/UserController')
-const { check } = require('express-validator');
-// const fileUpload = require('../middleware/file-upload')
-const {authMiddleware,isAdmin,isReader} = require('../middleware/authenticationMiddleware')
+const {userCart,getUserCart,removeUserCart,userAddress,creatUserOrders,getUserOrders,addToWishList,wishList,removeFromWishList} = require('../controllers/UserController');
+const {authMiddleware} = require('../middleware/authenticationMiddleware');
+// const {check} = require('express-validator');
 
-//@route        GET api/users
-//desc          Register User
-//@access       Public
-// router.post('/',
-// [
-//     fileUpload.single('photo'),
-//    [ 
-//     check('name','Please, add a name').not().isEmpty(),// body('name').not().isEmpty(),
-//     check('email','Please, enter an email').not().isEmpty(),
-//     check('email').normalizeEmail(),//convert Test@gmail.com to test@test.com
-//     check('email','Please, enter a valid email').isEmail(),// body('email').isEmail(),
-//     check('password','Please enter a password with 6 or more characters').isLength({ min: 6 })//body('password').isLength({ min: 5 })
-//    ]
-// ]
-// , UserController.registerUsers) 
+ 
 
-// ----------------------------------------------------------
-// @route         GET  http://localhost:5000/api/auth/all-users
-// @description   GET ALL USERS FOR REGISTRATION FRONTEND VALIDATION
-// @access        PUBLIC by the authMiddleware
-// router.get('/all-users', authMiddleware, isAdmin, getAllUsers)////if the user is authorizd, the request is going to have user from d authMiddleware(from d assignment req.user = decoded.user) that is ////request.user and request.user.id
+// router.post('/login',logUser)
+// router.post('/register', register)
+// router.post('/forgetPassword', forgetPassword)
+// router.patch('/reset-password', resetPassword)
+// router.patch('/update-password',authMiddleware, updatePassword)//auth
+
+// router.patch('/current-admin',authMiddleware,isAdmin,updatePassword)//auth
+
+router.post('/user/cart',authMiddleware,userCart)//responsible for recreating a cart by a user sent from frontend
+router.get('/user/cart',authMiddleware,getUserCart)//responsible for creating a cart by a user
+router.delete('/user/cart',authMiddleware,removeUserCart)//responsible for creating a cart by a user
+router.post('/user/address',authMiddleware,userAddress)
+router.post('/user/create-order',authMiddleware,creatUserOrders)
+router.get('/user/orders',authMiddleware,getUserOrders)
+
+router.post('/user/wishlist',authMiddleware,addToWishList)
+router.get('/user/wishlist',authMiddleware,wishList)
+router.put('/user/wishlist/:productId',authMiddleware,removeFromWishList)
 
 module.exports = router;

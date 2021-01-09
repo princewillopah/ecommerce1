@@ -38,7 +38,7 @@ if(!req.body.password){  return res.status(400).json({status: 'Failed', message:
  //    if user WITH EMAIL exist then CHECK FOR PASSWORD
      const isMatch = await bcrypt.compare(req.body.password,user.password)//it return true if password(from res.body) and user.password(from database) are thesame
     //  if(!isMatch){return res.status(400).json({ message:'PASSWORD IS INCORRECT' })}//if isMatch DOES NOT  return true
-      if(!isMatch){res.status(400).json({status: 'Failed', message: 'Invalid Credentials: Make sure you enter the right email or password'})}
+      if(!isMatch){return res.status(400).json({status: 'Failed', message: 'Invalid Credentials: Make sure you enter the right email or password'})}
 
     
 

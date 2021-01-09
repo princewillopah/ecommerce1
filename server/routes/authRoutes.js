@@ -23,4 +23,8 @@ router.patch('/update-password',authMiddleware, updatePassword)//auth
 
 router.patch('/current-admin',authMiddleware,isAdmin,updatePassword)//auth
 
+
+
+
+
 module.exports = router;

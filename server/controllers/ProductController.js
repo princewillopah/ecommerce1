@@ -276,8 +276,96 @@ const product = await Product.findById(req.params.productId)
                               .populate("category")
                               .populate("subCategory")
 
-
 res.json(relatedProducts)//json(post:post)
+  } catch (err) {
+      console.error(err.message)
+      res.status(500).send('Server Error')
+  }
+
+}
+
+// -----------------------------------------------------------
+//                               seach    
+// ------------------------------------------------------------
+exports.searchProducts = async(req,res) => {
+   const {query,price,category,stars,subcat, shipping, color, brand} = req.body
+  try {
+    if(query){
+       const products = await Product.find({$text: {$search: query}})
+       .populate("category", "_id name")
+       .populate("subCategory", "_id name")
+       res.json(products)//json(post:post)
+    }
+// ---------------------------------------------------
+    if(price !== undefined){//price value is an array of two elements eg [0, 40000] coming from the slider
+      const products = await Product.find({//search based on price in Product//get those products whose prices is greather than price[0] and less than price[1] or equal to
+                              price: {$gte: price[0], $lte: price[1]}
+                            }).populate("category", "_id name")
+                            .populate("subCategory", "_id name")
+      res.json(products)//json(post:post)
+    }
+// -----------------------------------------------------
+    if(category){//category(from frontend) value is an array of ids of checked boxes
+      const products = await Product.find({category: category}).populate("category", "_id name")
+                            .populate("subCategory", "_id name")
+      res.json(products)//json(post:post)
+    console.log(products)
+    }
+// -------------------------------------------------------
+    if(stars){
+      Product.aggregate([
+        {
+          $project: {
+            document: "$$ROOT",//
+            floorAverage: {
+              $floor: {$avg: "$ratings.star"},
+            },
+          },
+        },
+        {$match: {floorAverage: stars}}
+      ])
+              .exec((err,aggregates)=>{
+        if(err) console.log('AGGREGATE ERROR: ',err)
+        //get the products based on that aggregates 
+                 Product.find({_id: aggregates})
+                            .populate("category", "_id name")
+                            .populate("subCategory", "_id name")
+                            .exec((err,products)=>{
+                              if(err)console.log('err: ',err)
+                              res.json(products)//json(post:post)
+                            })
+ 
+      })
+    }
+  // ------------------------------------------------
+    if(subcat){  
+      const products = await Product.find({subCategory: subcat})
+                                  .populate("category", "_id name")
+                                  .populate("subCategory", "_id name")
+            res.json(products)//json(post:post)
+    }
+    // ------------------------------------------------
+  if(shipping){  
+    const products = await Product.find({shipping: shipping})
+                                .populate("category", "_id name")
+                                .populate("subCategory", "_id name")
+          res.json(products)//json(post:post)
+  }
+  // ------------------------------------------------
+  if(color){  
+    const products = await Product.find({color: color})
+                                .populate("category", "_id name")
+                                .populate("subCategory", "_id name")
+          res.json(products)//json(post:post)
+  }
+  // ------------------------------------------------
+  if(brand){  
+    const products = await Product.find({brand: brand})
+                                .populate("category", "_id name")
+                                .populate("subCategory", "_id name")
+          res.json(products)//json(post:post)
+  }
+
   } catch (err) {
       console.error(err.message)
       res.status(500).send('Server Error')

@@ -1,0 +1,31 @@
+
+.Not-Processed{
+    background: transparent;
+    padding: 2px;
+    /* color:white; */
+    font-weight: 600;
+}
+.Processing{
+    background: yellow;
+    padding: 2px;
+    /* colorblack; */
+    font-weight: 600;
+}
+.Dispatched{
+    background:  greenyellow;
+    padding: 2px;
+    color:black;
+    font-weight: 600;
+}
+.Cancelled{
+    background: red;
+    padding: 2px;
+    color:white;
+    font-weight: 600;
+}
+.Completed{
+    background: green;
+    padding: 2px;
+    color:white;
+    font-weight: 600;
+}

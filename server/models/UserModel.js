@@ -27,14 +27,14 @@ const userSchema = new mongoose.Schema({
            required: true,// true for every existing user
            default: 'subscriber'//make sure no user sees this//only the admin knows this field exis
       },
-      cart: {
+      cart: {//not used
           type: Array,
           default: []
       },
       address: String,
-    //   wishlist: [
-    //       {type: ObjectId, ref: "Product"}
-    //     ],
+      wishlist: [
+          {type:mongoose.Schema.Types.ObjectId, ref: "Product"}
+        ],
     passwordChangedAt: Date,
     passwordResetToken: String,// store the reset token
     passwordResetExpires: Date// for security measures// time to reset password after resetToken is provided

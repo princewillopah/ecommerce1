@@ -62,7 +62,7 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         enum: {
             values:  ['Armani','Rougn & Rumble','Polo Ralph','TM Luis',"Mark & Spenser","others"],
-            message: "Color must be either 'Armani','Rougn & Rumble','Polo Ralph','TM Luis','Mark & Spenser'"
+            message: "bRAND must be either 'Armani','Rougn & Rumble','Polo Ralph','TM Luis','Mark & Spenser'"
         },
         default: 'Armani'
     },

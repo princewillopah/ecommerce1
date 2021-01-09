@@ -1,4 +1,5 @@
 const Sub = require('../models/SubCategoryModel')
+const ProductModel = require('../models/ProductModel')
 const slugify = require('slugify')
 
 exports.create= async(req,res,next) => {
@@ -96,6 +97,18 @@ exports.remove= async(req,res,next) => {
 
 
     
+} catch (err) {
+    console.log(err.message)
+}
+}
+
+exports.subCategoriesBasedProducts= async(req,res,next) => {
+  try {
+  
+    const sub = await Sub.findOne({slug: req.params.slug}) //or
+    const products = await ProductModel.find({subCategory: sub._id})
+                                        .populate('category')
+res.json({subcategory: sub, products: products})
 } catch (err) {
     console.log(err.message)
 }

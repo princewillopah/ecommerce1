@@ -1,6 +1,8 @@
 const Category = require('../models/CategoryModel')
 const Sub = require('../models/SubCategoryModel')
+const ProductModel = require('../models/ProductModel')
 const slugify = require('slugify')
+const { json } = require('body-parser')
 
 exports.create= async(req,res,next) => {
   try {
@@ -110,6 +112,19 @@ exports.getSubsCatId= async(req,res,next) => {
      
     }
     
+} catch (err) {
+    console.log(err.message)
+}
+}
+
+
+exports.categoriesBasedProducts= async(req,res,next) => {
+  try {
+  
+    const category= await Category.findOne({slug: req.params.slug}) //or
+    const products = await ProductModel.find({category: category._id})
+                                        .populate('category')
+res.json({category: category, products: products})
 } catch (err) {
     console.log(err.message)
 }

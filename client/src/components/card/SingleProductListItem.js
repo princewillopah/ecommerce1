@@ -48,14 +48,14 @@ const SingleProductListItem = ({product: {price,color,quantity,brand,shipping,ca
          {category && <li className="list-group-item">
             <div className="row">
                 <div className="col-md-2 ">Category</div>
-                <div className="col-md-10 d-flex justify-content-end"><Link to={`/category/${category.slug}`}>{category.name} </Link></div>
+                <div className="col-md-10 d-flex justify-content-end"><Link to={`/categories/${category.slug}`}>{category.name} </Link></div>
             </div>
         </li>
         } 
        {subCategory && subCategory.length > 0 && (<li className="list-group-item">
             <div className="row">
                 <div className="col-md-3">Sub Category</div>
-                <div className="col-md-9 d-flex justify-content-end">| {subCategory.map((sub,index) =><span key={index}><Link to={`/sub-category/${sub.slug}`}>{sub.name}</Link> |</span>)} </div>
+                <div className="col-md-9 d-flex justify-content-end">| {subCategory.map((sub,index) =><span key={index}><Link to={`/sub-categories/${sub.slug}`}>{sub.name}</Link> |</span>)} </div>
             </div>
         </li>)
         }
