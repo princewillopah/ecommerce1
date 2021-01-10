@@ -2,7 +2,8 @@ const ProductModel = require('../models/ProductModel')
 const CartModel = require('../models/CartModel')
 const UserModel = require('../models/UserModel')
 const OrderModel = require('../models/OrderModel')
-// const { findOne } = require('../models/ProductModel')
+// const uniqueid = require('uniqueid')
+const uuid = require('uuid')
 
 
 exports.userCart= async(req,res) => {
@@ -116,6 +117,54 @@ exports.creatUserOrders = async(req,res) => {
     } catch (err) {
         console.log(err.message)
     }
+}
+
+exports.creatUserCashOrders = async(req,res) => {
+  try {
+    const {COD,couponApplied} =req.body
+    //if COD is true, create order with status of Cash On Delivery
+    if(!COD) return res.json('Create Cash On Delivery Failed')
+    //get the user CART
+    const userCart = await CartModel.findOne({orderedBy: req.user.id})
+    //
+    let finalAmount = 0;
+    if(couponApplied && userCart.totalAfterDiscount){
+       finalAmount = Math.round(userCart.totalAfterDiscount * 100)
+     
+    }else{
+        finalAmount = Math.round(userCart.cartTotal * 100)
+    }
+    //create the order in orderModel
+    let newOrder = await new OrderModel({
+      products: userCart.products,
+      paymentIntent: {
+       id: uuid.v4(),
+       amount: finalAmount,
+       currency:'Naira',
+       status: 'Cash On Delivery',
+       created: Date.now(),
+      payment_method_type: ['cash','POS','Transfer']
+      },
+      orderedBy: req.user.id,
+      orderStatus: 'Cash On Delivery'
+    }).save()
+    //reduce quantity and increase sold in product collection(table)
+let bulkOption = userCart.products.map((item)=>{//this is the array the bulkwrite is gonna act on
+  return {
+    updateOne: {
+      filter: {_id: item.product._id},//only those products sold
+      update: {$inc: {quantity: -item.count, sold: +item.count}}
+     }
+  }
+}
+)
+let update = await ProductModel.bulkWrite(bulkOption,{new: true})
+
+    res.json({ok:true})
+    // res.json(userAdress)
+  } catch (err) {
+      console.log(err.message)
+  }
 }
 
 exports.getUserOrders = async(req,res) => {

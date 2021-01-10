@@ -36,7 +36,7 @@ const History = () => {
        </div>
        <div className="col-md-9">
            <h1 className="mb-5">{orders.length > 0 ?'user Purchase Orders':'No Purchased Orders'}</h1>
-           {orders && orders.map(order =>(
+           {orders && orders.reverse().map(order =>(
              <div className="card mb-5"  key={order._id}>
                <div className="card-header p-0">
                  <h5 className="text-center">Order Info</h5>

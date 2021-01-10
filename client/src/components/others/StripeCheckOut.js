@@ -92,7 +92,7 @@ console.log(coupon)
                   //reset coupon to false
                   dispatch({
                     type:"COUPON_APPLIED",
-                    payload: []
+                    payload: false
                 })
                 //remove cart from backend db
                 const config = { headers:{ Authorization: `Bearer ${userInfo.token}`}}

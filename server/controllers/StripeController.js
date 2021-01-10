@@ -20,10 +20,10 @@ exports.createPaymentIntent = async(req,res) =>{
         }else{
             finalAmount = Math.round(cartTotal * 100)
         }
-        console.log(req.body.couponApplied)
-        console.log("cartTotal: ",cartTotal)
-        console.log("totalAfterDiscount: ",totalAfterDiscount)
-        console.log("payable: ",finalAmount)
+        // console.log(req.body.couponApplied)
+        // console.log("cartTotal: ",cartTotal)
+        // console.log("totalAfterDiscount: ",totalAfterDiscount)
+        // console.log("payable: ",finalAmount)
         const paymentIntent = await stripe.paymentIntents.create({
             amount: finalAmount,//using the cartTotal//multiply be 100 because the cartTotal represent cent instead of dollar// 100cent = 1 dallar
             currency: "usd"

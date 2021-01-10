@@ -18,6 +18,7 @@ const CheckOut = ({history}) => {
 
     const {userInfo} = useSelector(state =>state.userState)
     const COD = useSelector(state =>state.CODState)
+    const couponApplied = useSelector(state =>state.couponAppliedState)
     const dispatch = useDispatch()
 
     useEffect(()=>{
@@ -110,7 +111,52 @@ const handlePlaceOrder = () =>{
 }
 //incease the user want cash on delevery option
 const createCashOrder = () => {
+    const config = { headers:{ Authorization: `Bearer ${userInfo.token}`}}
+    axios.post(`${process.env.REACT_APP_URL}/user/create-cash-order`,{COD:COD,couponApplied:couponApplied},config)
+  .then(res=>{
 
+    if(res.data.ok){
+        //  //empty user cart in redux and localstorage
+         //remove cart from localstorage
+          
+            localStorage.removeItem('cart') //remove it from localstorage
+
+          //remove cart from redux state
+            dispatch({
+                type:"ADD_TO_CART",
+                payload: []
+            })
+            //reset coupon to false
+            dispatch({
+              type:"COUPON_APPLIED",
+              payload: false
+          })
+           //reset CASH ON DELIVERY to false
+           dispatch({
+            type:"COD",
+            payload: false
+        })
+          //remove cart from backend db
+          const config = { headers:{ Authorization: `Bearer ${userInfo.token}`}}
+            axios.delete(`${process.env.REACT_APP_URL}/user/cart`,config)
+            .then(res=>{
+            // setProducts([])
+            // setCartTotal('')
+            // setTotalAfterDiscount(0)
+            // setCoupon('')
+            // toast.success(`Cart has been Cleared`)
+            history.push('/user/history')
+
+            })
+            .catch(err=>{
+              console.log('err: ',err)
+            })
+      }//END IF OK
+
+  })
+  .catch(err=>{
+      console.log(err)
+  })
 }
    return(<>
      <div className="container mt-5">
